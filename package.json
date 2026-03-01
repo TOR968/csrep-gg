@@ -1,22 +1,28 @@
 {
 	"scripts": {
 		"dev": "millennium-ttc --build dev",
-		"build": "millennium-ttc --build prod"
+		"build": "millennium-ttc --build prod",
+		"watch": "nodemon --watch webkit --watch frontend --ext ts,tsx,js,jsx --exec \"millennium-ttc --build dev\"",
+		"sync-version": "npx tsx scripts/sync-version.ts 1.0.0",
+		"release": "npx tsx scripts/build-plugin.ts 1.0.0"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.29.0",
 		"@babel/preset-react": "^7.28.5",
 		"@babel/traverse": "^7.29.0",
+		"@types/node": "^22.0.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"@types/webpack": "^5.28.5"
+		"@types/webpack": "^5.28.5",
+		"archiver": "^7.0.1",
+		"nodemon": "^3.1.14"
 	},
 	"type": "module",
-	"name": "millennium-plugin",
+	"name": "csrep-gg",
 	"version": "1.0.0",
-	"description": "A template plugin for millennium",
+	"description": "CSrep-gg plugin for Millennium",
 	"main": "./frontend/index.jsx",
-	"author": "Millennium",
+	"author": "CSrep-gg",
 	"license": "MIT",
 	"dependencies": {
 		"@steambrew/api": "^5.8.4",

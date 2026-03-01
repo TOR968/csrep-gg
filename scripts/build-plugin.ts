@@ -16,7 +16,7 @@ if (!version) {
 
 const rootDir = process.cwd();
 const releaseDir = join(rootDir, 'release');
-const zipName = `ruststats-extension-v${version}.zip`;
+const zipName = `CSrep-gg-v${version}.zip`;
 
 console.log(`Building plugin version ${version}...`);
 

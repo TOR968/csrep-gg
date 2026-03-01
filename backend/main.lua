@@ -9,10 +9,10 @@ function test_frontend_message_callback(message, status, count)
 end
 
 local function on_load()
-    print("Example plugin loaded")
+    print("CSrep-gg loaded")
     logger:info("Comparing millennium version: " .. millennium.cmp_version(millennium.version(), "2.29.3"))
 
-    logger:info("Example plugin loaded with Millennium version " .. millennium.version())
+    logger:info("CSrep-gg loaded with Millennium version " .. millennium.version())
     millennium.ready()
 end
 
@@ -25,8 +25,6 @@ end
 -- Called when the Steam UI has fully loaded.
 local function on_frontend_loaded()
     logger:info("Frontend loaded")
-    local result = millennium.call_frontend_method("classname.method", { 18, "USA", false })
-    logger:info(result)
 end
 
 return {
