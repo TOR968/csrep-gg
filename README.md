@@ -72,7 +72,7 @@ pnpm run build
 
 ```bash
 # Windows
-copy /R . "C:\Program Files (x86)\Steam\plugins\csrep-gg"
+copy /R . "C:\Program Files (x86)\Steam\millennium\plugins\csrep-gg"
 
 # Linux
 cp -r . ~/.local/share/millennium/plugins/csrep-gg
