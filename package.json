@@ -31,6 +31,8 @@
   "dependencies": {
     "@steambrew/api": "^5.8.4",
     "@steambrew/client": "^5.8.4",
-    "@steambrew/ttc": "^3.2.6"
+    "@steambrew/ttc": "^3.2.6",
+    "@steambrew/webkit": "^5.8.4",
+    "react": "^19.2.7"
   }
 }

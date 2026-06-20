@@ -1,4 +1,4 @@
-function csrepGgInjectMain(logoDataUrl: string) {
+export function csrepGgInjectMain(openExternal: boolean, injector: string, logoDataUrl: string) {
 	if (document.querySelector('.csrep-gg-container')) return;
 	if (!/steamcommunity\.com\/(id|profiles)\//.test(location.href)) return;
 
@@ -12,7 +12,7 @@ function csrepGgInjectMain(logoDataUrl: string) {
 		}
 		const miniId = document.querySelector('[data-miniprofile]')?.getAttribute('data-miniprofile');
 		if (miniId && miniId !== '0') {
-			try { return (STEAMID64_BASE + BigInt(miniId)).toString(); } catch { /* ignore */ }
+			try { return (STEAMID64_BASE + BigInt(miniId)).toString(); } catch { }
 		}
 		try {
 			const xmlUrl = location.href.replace(/[?#].*/, '').replace(/\/$/, '') + '/?xml=1';
@@ -21,15 +21,21 @@ function csrepGgInjectMain(logoDataUrl: string) {
 			const dom = new DOMParser().parseFromString(text, 'application/xml');
 			const id = dom.querySelector('steamID64')?.textContent;
 			if (id && id !== '0') return id;
-		} catch { /* ignore */ }
+		} catch { }
 		return null;
 	}
 
 	async function inject() {
 		const col = document.querySelector('.profile_rightcol');
 		if (!col || col.querySelector('.csrep-gg-container')) return;
+
+		const div = document.createElement('div');
+		div.className = 'account-row csrep-gg-container';
+		div.setAttribute('data-injector', injector || 'unknown');
+		col.insertBefore(div, col.children[1] ?? null);
+
 		const steamId = await getSteamId();
-		if (!steamId) { console.warn('[CSrep] No SteamID'); return; }
+		if (!steamId) { console.warn('[CSrep] No SteamID'); div.remove(); return; }
 
 		if (!document.getElementById('csrep-gg-style')) {
 			const s = document.createElement('style');
@@ -38,10 +44,9 @@ function csrepGgInjectMain(logoDataUrl: string) {
 			document.head?.appendChild(s);
 		}
 
-		const div = document.createElement('div');
-		div.className = 'account-row csrep-gg-container';
+		const profileUrl = 'https://csrep.gg/player/' + steamId;
 		const a = document.createElement('a');
-		a.href = 'https://csrep.gg/player/' + steamId;
+		a.href = openExternal ? 'steam://openurl_external/' + profileUrl : profileUrl;
 		a.className = 'csrep-btn';
 		const img = document.createElement('img');
 		img.className = 'csrep-logo';
@@ -49,7 +54,6 @@ function csrepGgInjectMain(logoDataUrl: string) {
 		img.src = logoDataUrl;
 		a.appendChild(img);
 		div.appendChild(a);
-		col.insertBefore(div, col.children[1] ?? null);
 	}
 
 	if (document.querySelector('.profile_rightcol')) {
@@ -66,6 +70,5 @@ function csrepGgInjectMain(logoDataUrl: string) {
 	}
 }
 
-export function buildInjectionCode(logoDataUrl: string): string {
-	return `(${csrepGgInjectMain.toString()})(${JSON.stringify(logoDataUrl)})`;
-}
+export const buildInjectionCode = (openExternal: boolean, logoDataUrl: string) =>
+	`(${csrepGgInjectMain.toString()})(${openExternal === false ? 'false' : 'true'}, 'cdp', ${JSON.stringify(logoDataUrl)})`;
