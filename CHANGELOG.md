@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/TOR968/csrep-gg/compare/v1.1.3...v1.1.4) (2026-06-20)
+
+
+### Bug Fixes
+
+* rename webkit entry to .ts and remove deprecated tsconfig option ([eb87be5](https://github.com/TOR968/csrep-gg/commit/eb87be5f40d8128240f346af876b8a586c61f300))
+
 ## [1.1.3](https://github.com/TOR968/csrep-gg/compare/v1.1.2...v1.1.3) (2026-06-20)
 
 
