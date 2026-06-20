@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/TOR968/csrep-gg/compare/v1.1.0...v1.1.1) (2026-06-20)
+
+
+### Bug Fixes
+
+* webkit-primary injection with CDP fallback, injection-mode + browser settings ([ab338c2](https://github.com/TOR968/csrep-gg/commit/ab338c228d4f4a5965a9cb831c42055cc66df095))
+
 # [1.1.0](https://github.com/TOR968/csrep-gg/compare/v1.0.0...v1.1.0) (2026-06-17)
 
 
