@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/TOR968/csrep-gg/compare/v1.1.1...v1.1.2) (2026-06-20)
+
+
+### Bug Fixes
+
+* trigger asset generation for v1.1.2 ([54d0cc4](https://github.com/TOR968/csrep-gg/commit/54d0cc411e8eed1757e2f8965c81c12b36132f72))
+
 ## [1.1.1](https://github.com/TOR968/csrep-gg/compare/v1.1.0...v1.1.1) (2026-06-20)
 
 
