@@ -4,6 +4,6 @@
 	"common_name": "CSrep-gg",
 	"description": "CSrep-gg профільна кнопка.",
 	"backendType": "lua",
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"webkitApiVersion": "2.0.0"
 }

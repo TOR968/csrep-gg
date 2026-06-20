@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/TOR968/csrep-gg/compare/v1.1.4...v1.1.5) (2026-06-20)
+
+
+### Bug Fixes
+
+* build ([f99d8e3](https://github.com/TOR968/csrep-gg/commit/f99d8e39908d834538e6b0f4513f1393689ca485))
+
 ## [1.1.4](https://github.com/TOR968/csrep-gg/compare/v1.1.3...v1.1.4) (2026-06-20)
 
 
