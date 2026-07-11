@@ -1,8 +1,8 @@
 # CSrep-gg Extension for Millennium
 
-A Millennium plugin that integrates CSrep.gg button into the Steam client profile.
+A Millennium plugin that integrates a CSrep.gg profile button into the Steam client profile pages.
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before installing this plugin, ensure you have:
 
@@ -17,7 +17,7 @@ Before installing this plugin, ensure you have:
 ![Example](./assets/images/settings.png)
 ---
 
-## 🚀 Installation Guide
+## Installation Guide
 
 ### Method 1: Millennium Plugin Installer (Recommended)
 
@@ -44,28 +44,22 @@ cd csrep-gg
 
 #### Step 2: Install Dependencies
 
-**Install Node.js dependencies:**
-
 ```bash
-# Install pnpm if you haven't already
-npm install -g pnpm
-
-# Install project dependencies
-pnpm install
+bun install
 ```
 
 #### Step 3: Build the Plugin
 
-**For development:**
+For development:
 
 ```bash
-pnpm run dev
+bun run dev
 ```
 
-**For production:**
+For production:
 
 ```bash
-pnpm run build
+bun run build
 ```
 
 #### Step 4: Install to Steam
@@ -78,9 +72,6 @@ copy /R . "C:\Program Files (x86)\Steam\millennium\plugins\csrep-gg"
 
 # Linux
 cp -r . ~/.local/share/millennium/plugins/csrep-gg
-
-# macOS
-cp -r . ~/Library/Application\ Support/millennium/plugins/csrep-gg
 ```
 
 **Option B: Create symbolic link (for development)**
@@ -103,7 +94,22 @@ ln -s "$(pwd)" ~/.local/share/millennium/plugins/csrep-gg
 
 ---
 
-## 🔗 Links
+## How it works
+
+The webkit bundle ([webkit/index.tsx](webkit/index.tsx)) runs inside the Steam community
+browser and injects the button with a vanilla-DOM function
+(`csrepGgInjectMain` in [webkit/inject.ts](webkit/inject.ts)). Settings are stored by a small Lua
+backend ([backend/main.lua](backend/main.lua)) and edited from the plugin's settings panel
+in the Steam client.
+
+## Type checking
+
+```bash
+npx tsc -p frontend/tsconfig.json --noEmit
+npx tsc -p webkit/tsconfig.json --noEmit
+```
+
+## Links
 
 - [Millennium Framework](https://github.com/SteamClientHomebrew/Millennium)
 - [CSrep.gg](https://csrep.gg)

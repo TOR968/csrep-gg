@@ -1,79 +1,40 @@
 local logger = require("logger")
 local millennium = require("millennium")
+local utils = require("utils")
 
-local function _plugin_dir()
-    local src = debug.getinfo(1, "S").source or ""
-    if src:sub(1, 1) == "@" then
-        src = src:sub(2)
-    end
-    src = src:gsub("\\", "/")
-    return src:match("^(.+)/backend/") or "."
+local function plugin_dir()
+    local backend = (utils.get_backend_path() or "."):gsub("\\", "/")
+    return backend:match("^(.+)/[^/]+$") or backend
 end
 
-local _SETTINGS_FILE = _plugin_dir() .. "/settings.json"
-
-local function _read_file(path)
-    local f = io.open(path, "r")
-    if not f then
-        return nil
-    end
-    local body = f:read("*a")
-    f:close()
-    return body
-end
-
-local function _write_file(path, content)
-    local f = io.open(path, "w")
-    if not f then
-        return false
-    end
-    f:write(content)
-    f:close()
-    return true
-end
+local SETTINGS_FILE = plugin_dir() .. "/settings.json"
 
 function GetSettings()
-    return _read_file(_SETTINGS_FILE) or "{}"
+    return utils.read_file(SETTINGS_FILE) or "{}"
 end
 
 function SaveSettings(settings_json)
     if type(settings_json) ~= "string" or settings_json == "" then
         return "0"
     end
-    if _write_file(_SETTINGS_FILE, settings_json) then
+    if utils.write_file(SETTINGS_FILE, settings_json) then
         return "1"
     end
     return "0"
 end
 
-function test_frontend_message_callback(message, status, count)
-    logger:info("test_frontend_message_callback called")
-    logger:info("Received args: " .. table.concat({message, tostring(status), tostring(count)}, ", "))
-
-    return "Response from backend"
-end
-
 local function on_load()
-    print("CSrep-gg loaded")
-    logger:info("Comparing millennium version: " .. millennium.cmp_version(millennium.version(), "2.29.3"))
-
-    logger:info("CSrep-gg loaded with Millennium version " .. millennium.version())
+    logger:info("CSrep-gg loaded")
     millennium.ready()
 end
 
--- Called when your plugin is unloaded. This happens when the plugin is disabled or Steam is shutting down.
--- NOTE: If Steam crashes or is force closed by task manager, this function may not be called -- so don't rely on it for critical cleanup.
 local function on_unload()
-    logger:info("Plugin unloaded")
-end
-
--- Called when the Steam UI has fully loaded.
-local function on_frontend_loaded()
-    logger:info("Frontend loaded")
+    logger:info("CSrep-gg unloaded")
 end
 
 return {
-    on_frontend_loaded = on_frontend_loaded,
     on_load = on_load,
-    on_unload = on_unload
+    on_unload = on_unload,
+    GetSettings = GetSettings,
+    SaveSettings = SaveSettings,
 }

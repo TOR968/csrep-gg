@@ -1,29 +1,31 @@
-export function csrepGgInjectMain(openExternal: boolean, injector: string, logoDataUrl: string) {
+import { CSREP_LOGO_DATA_URL } from '../frontend/logo-data-url';
+
+const STEAMID64_BASE = BigInt('76561197960265728');
+
+async function getSteamId() {
+	const win = window as any;
+	const candidates = [win.g_rgProfileData?.steamid64, win.g_rgProfileData?.steamid];
+	for (const v of candidates) {
+		if (typeof v === 'string' && v !== '0' && v.trim()) return v.trim();
+	}
+	const miniId = document.querySelector('[data-miniprofile]')?.getAttribute('data-miniprofile');
+	if (miniId && miniId !== '0') {
+		try { return (STEAMID64_BASE + BigInt(miniId)).toString(); } catch { }
+	}
+	try {
+		const xmlUrl = location.href.replace(/[?#].*/, '').replace(/\/$/, '') + '/?xml=1';
+		const res = await fetch(xmlUrl);
+		const text = await res.text();
+		const dom = new DOMParser().parseFromString(text, 'application/xml');
+		const id = dom.querySelector('steamID64')?.textContent;
+		if (id && id !== '0') return id;
+	} catch { }
+	return null;
+}
+
+export function csrepGgInjectMain(openExternal: boolean) {
 	if (document.querySelector('.csrep-gg-container')) return;
 	if (!/steamcommunity\.com\/(id|profiles)\//.test(location.href)) return;
-
-	const STEAMID64_BASE = BigInt('76561197960265728');
-
-	async function getSteamId() {
-		const win = window as any;
-		const candidates = [win.g_rgProfileData?.steamid64, win.g_rgProfileData?.steamid];
-		for (const v of candidates) {
-			if (typeof v === 'string' && v !== '0' && v.trim()) return v.trim();
-		}
-		const miniId = document.querySelector('[data-miniprofile]')?.getAttribute('data-miniprofile');
-		if (miniId && miniId !== '0') {
-			try { return (STEAMID64_BASE + BigInt(miniId)).toString(); } catch { }
-		}
-		try {
-			const xmlUrl = location.href.replace(/[?#].*/, '').replace(/\/$/, '') + '/?xml=1';
-			const res = await fetch(xmlUrl);
-			const text = await res.text();
-			const dom = new DOMParser().parseFromString(text, 'application/xml');
-			const id = dom.querySelector('steamID64')?.textContent;
-			if (id && id !== '0') return id;
-		} catch { }
-		return null;
-	}
 
 	async function inject() {
 		const col = document.querySelector('.profile_rightcol');
@@ -31,7 +33,6 @@ export function csrepGgInjectMain(openExternal: boolean, injector: string, logoD
 
 		const div = document.createElement('div');
 		div.className = 'account-row csrep-gg-container';
-		div.setAttribute('data-injector', injector || 'unknown');
 		col.insertBefore(div, col.children[1] ?? null);
 
 		const steamId = await getSteamId();
@@ -51,7 +52,7 @@ export function csrepGgInjectMain(openExternal: boolean, injector: string, logoD
 		const img = document.createElement('img');
 		img.className = 'csrep-logo';
 		img.alt = 'CSREP';
-		img.src = logoDataUrl;
+		img.src = CSREP_LOGO_DATA_URL;
 		a.appendChild(img);
 		div.appendChild(a);
 	}
@@ -69,6 +70,3 @@ export function csrepGgInjectMain(openExternal: boolean, injector: string, logoD
 		setTimeout(() => obs.disconnect(), 15000);
 	}
 }
-
-export const buildInjectionCode = (openExternal: boolean, logoDataUrl: string) =>
-	`(${csrepGgInjectMain.toString()})(${openExternal === false ? 'false' : 'true'}, 'cdp', ${JSON.stringify(logoDataUrl)})`;
