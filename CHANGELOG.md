@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/TOR968/csrep-gg/compare/v1.1.5...v1.1.6) (2026-07-11)
+
+
+### Bug Fixes
+
+* address Plugin Database review feedback ([2f79fd8](https://github.com/TOR968/csrep-gg/commit/2f79fd8d9bb57f6cff529cb9abd81f0d4927a4c9))
+
 ## [1.1.5](https://github.com/TOR968/csrep-gg/compare/v1.1.4...v1.1.5) (2026-06-20)
 
 
