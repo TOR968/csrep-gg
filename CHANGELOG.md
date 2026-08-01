@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/TOR968/csrep-gg/compare/v1.1.6...v1.1.7) (2026-08-01)
+
+
+### Bug Fixes
+
+* harden profile injection and surface settings write failures ([d039173](https://github.com/TOR968/csrep-gg/commit/d039173569846ea720c7386d0fb156ba4b860294))
+
 ## [1.1.6](https://github.com/TOR968/csrep-gg/compare/v1.1.5...v1.1.6) (2026-07-11)
 
 
